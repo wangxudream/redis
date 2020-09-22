@@ -94,6 +94,7 @@ public class RedisConfig {
 
     @Bean
 //    @Bean(name = "objRedisTemplate")
+
     public RedisTemplate objRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
