@@ -1,4 +1,4 @@
-package com.kataer.redis.common.util;
+package com.kataer.redis.common.config;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -92,9 +92,7 @@ public class RedisConfig {
     }
 
 
-    @Bean
-//    @Bean(name = "objRedisTemplate")
-
+    @Bean(name = "objRedisTemplate")
     public RedisTemplate objRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
@@ -108,23 +106,21 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    @Bean
-//    @Bean(name = "strRedisTemplate")
+    @Bean(name = "strRedisTemplate")
     public RedisTemplate strRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         // 使用 GenericFastJsonRedisSerializer 替换默认序列化
         GenericFastJsonRedisSerializer genericFastJsonRedisSerializer = new GenericFastJsonRedisSerializer();
-        redisTemplate.setKeySerializer(new GenericToStringSerializer<>(String.class));
-        redisTemplate.setValueSerializer(genericFastJsonRedisSerializer);
-        redisTemplate.setHashKeySerializer(new GenericToStringSerializer<>(String.class));
-        redisTemplate.setHashValueSerializer(genericFastJsonRedisSerializer);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
         System.err.println("strRedisTemplate------------>" + redisTemplate.toString());
         return redisTemplate;
     }
 
-    @Bean
-//    @Bean(name = "intRedisTemplate")
+    @Bean(name = "intRedisTemplate")
     public RedisTemplate<String, Integer> intRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Integer> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
